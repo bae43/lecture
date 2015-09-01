@@ -11,12 +11,24 @@ with questions for class!
     you computed this, and give URLs for where you got the parameters
     in your calculation.  (We will return to this question again after
     we cover some computer architecture.)
+
+http://www.intel.com/content/www/us/en/benchmarks/server/xeon-phi/xeon-phi-theoretical-maximums.html
+
+2416*15=36,000 Giga FLOPS
     
 2.  What is the approximate theoretical peak flop rate for your own machine?
+
+3.2 GHz *  2 FLOPs per cycle * 4 cores = 25 gigaflops.
 
 3.  Suppose there are t tasks that can be executed in a pipeline
     with p stages.  What is the speedup over serial execution of the
     same tasks?
+
+    On order of magnitude only (ignoring specific cases such as t=1)
+    SERIAL TIME : t/p
+    PARALLELIZED: 1
+
+    SPEEDUP: t/p
 
 4.  Consider the following list of tasks (assume they can't be pipelined):
 
@@ -30,6 +42,9 @@ with questions for class!
     What is the minimum serial time between starting to compile and having
     a compiled application?  What is the minimum parallel time given
     an arbitrary number of processors?
+
+    SERIAL TIME:  2.75 hours
+    PARALLELIZED: 2.25 hours
 
 5.  Clone the membench repository from GitHub:
 
