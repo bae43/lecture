@@ -11,7 +11,7 @@ for (i = 0; i < N; i++){
       C[i,j] = tmp
 }
 
-Suppose data is in double-precsion floating point. We are interested in
+Suppose data is in double-precision floating point. We are interested in
 estimating the memory-based arithmetic intensity (AI) of this code. The
 memory-based AI is defined that (# flops) / (# bytes transferred between memory
 and cache), and depends on the cache size. Suppose the cache uses a
@@ -22,9 +22,15 @@ something into an already-full cache.
 the memory-based AI of this code? (Hint: What is the memory-based AI of just the
 innermost loop?)
 
+Given 16N > L3, there will be cache thrashing that causes data to be evicted and reloaded repeatedly. No one can say what the exact value is, but it must be less than 1 as bytes are being transferred multiple times for each floating point operation.  AI will be about 1.
 
 2. Now suppose that the cache is substantially larger than 16N, but
 substantially smaller than 8N^2. What is the AI now?
+
+
+Flops: N^3
+mem loaded: N^4
+Now that two full rows can be loaded into memory, less thrashing will occur but data will still be loaded multiple times because of the implementation. The AI will be approximately 1/N.
 
 
 3. Now suppose the cache is large enough to hold all of A, B, and C. What is the
@@ -32,19 +38,36 @@ AI now? (Hint: Writing to a byte of memory not already in the cache incurs two
 memory transfers: one to move the data to the cache for writing, and one to move
 the written data back to main memory.)
 
+AI will be about 1/N because there are N^3 operations and each piece of info is only loaded once (N^2 memory).
+
 
 4. Cache overflowing. On my CPU (Intel i7-4700 HQ), L1, L2, and L3 caches are 32
 KB, 256 KB, and 6 MB respectively. What is the largest problem size N that will
 fit in each cache? What is the arithmetic intensity associated with each problem
 size?
 
+total memory needed: 16*3(N^3)
+solve for N, maximizing N for (16*3(N^3) <= <cache size>)
+
+L1: 26
+L2: 73
+L3: 2364
 
 5. My CPU has 4 cores, each of which can do 8 fused multiply-adds per cycle, has
 a clock rate of 2.4 GHz, and a memory bandwidth of 25.6 GB/s. At what arithmetic
 intensity does my machine become CPU-bound?
 
+flops / mem
+When does CPU exceed mem?
+cpu:
+4 * 8 * 2.4 GHz = 7.68*10^10 operations/second
+mem:
+25.6 GB/s = 2.74878*10^10 bytes/second
+
+Constrained when AI = 0.357914
 
 6. So, for what size range for N will naive matmul be CPU-bound on my machine?
-
+Doesnt this depend on the size of the cache? It depends on the number of times a value has to be loaded into memory which depends on cache size (as shown in earlier questions).
 
 7. So, what will a plot of Flops/sec vs N look like?
+I'm missing something here (see 6).
