@@ -6,13 +6,27 @@ that you can figure out the numerical jargon.
 
 0.  How much time did you spend on this pre-class exercise, and when?
 
+120 Minutes - 9-16 afternoon, late night 
+
 1.  What are one or two points that you found least clear in the
     9/17 slide decks (including the narration)?
+    
+    I didn't understand this slide at all.
+    http://cornell-cs5220-f15.github.io/slides/2015-09-17-lumped.html#/4
+    
+    In general, I find a lot more knowledge is assumed about ODEs. I didn't 
+    understand what it meant for an ODE to be "stiff" for example.
+    
+    I also didn't follow "finite difference approximations"
 
 2.  Fill in the most straightforward implementation you can think of
     for multiplying a compressed sparse row matrix by a vector.
     Note: It is fine to look up the answer elsewhere!  If you do,
     please just say where you looked.
+    
+    Citations:
+    (Didn't really use for implementation but read more on the topic)
+    http://www.fftw.org/~athena/papers/csb.pdf
 
       typedef struct csr_t {
           int  n;   /* Dimension of matrix (assume square) */
@@ -24,7 +38,14 @@ that you can figure out the numerical jargon.
     
       void sparse_multiply(csr_t* A, double* x, double* result)
       {
-          /* Fill in here */
+          // assumes results is 0 intialized
+          // gets the row and col of the original position
+          // adds the weight of this value to the output
+          for (int i = 0; i < A.pr; i++ ) {
+            int col = A.col[i];
+            int row = A.ptr[i]
+            results[col] += x[row];
+          }
       } 
 
 3.  From the slides, complete the following short code:
