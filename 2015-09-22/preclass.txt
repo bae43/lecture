@@ -3,6 +3,11 @@
 1.  What are one or two points that you found least clear in the
     9/22 slide decks (including the narration)?
 
+     I found these slides very clear overall. I found the descriptions
+     of code execution at the end a little vague. I didn't entirely
+     understand how that worked. Condition variables seemed to be used
+     differently than I've seen in other languages.
+
 2.  The pthread_mc.c file in the demo subdirectory runs a Monte Carlo
     simulation to estimate the expected value of a uniform random
     variable.  The "-p" option sets the number of processors used,
