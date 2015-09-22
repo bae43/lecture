@@ -150,10 +150,13 @@ void workq_wait(workq_t* workq)
  */
 void workq_put(workq_t* workq, void* data)
 {
+    workq_lock(workq);   
     task_t* task = (task_t*) malloc(sizeof(task_t));
     task->data = data;
     task->next = workq->tasks;
     workq->tasks = task;
+    workq_broadcast(workq);
+    workq_unlock(workq);
 }
 
 
@@ -164,6 +167,7 @@ void workq_put(workq_t* workq, void* data)
  */
 void* workq_get(workq_t* workq)
 {
+    workq_lock(workq);
     void* result = NULL;
     if (workq->tasks) {
         task_t* task = workq->tasks;
@@ -171,6 +175,8 @@ void* workq_get(workq_t* workq)
         workq->tasks = task->next;
         free(task);
     }
+    if(result == NULL) workq_broadcast(workq);
+    workq_unlock(workq);
     return result;
 }
 
@@ -180,10 +186,16 @@ void* workq_get(workq_t* workq)
  * NB: This function can be called when there are still tasks to process!
  *     We're just saying that we're done adding new tasks.
  * TODO: This needs synchronization!
+ * XXX: how to do this? you need an event handler on push or to append an item that signals no more after will be processed (though work can still be added, it just wont do anything)
  */
 void workq_finish(workq_t* workq)
 {
-    workq->done = 1;
+   workq_lock(workq);  
+   while(workq->tasks != NULL)
+     pthread_cond_wait(&(workq->cv), &(workq->lock)); 
+  
+ workq->done = 1;
+   workq_unlock(workq);
 }
 
 
