@@ -3,6 +3,15 @@
 1.  What are one or two points that you found least clear in the
     10/06 slide decks (including the narration)?
 
+    What is the overhead for machines of different endianness? 
+    Is this a serious concern?
+
+    What is the buffer for in MPI?
+
+    How can you write code that is independent of network topology?
+    Doing so means that topology would A) not slow down with a different
+    topology, but convernsely means that all topologies are the same.    
+
 2.  In the upcoming lecture (10/8), we will discuss how to model
     latency and bandwidth of MPI sends and receives using the
     ping-pong benchmark briefly described in the current demo.
@@ -14,6 +23,26 @@
        (under /usr/local/intel).  Using this version of MPI and the
        default PBS files, run the pingpong examples (demo/pingpong).
 
+	OUTPUT: 
+	1 6.7697e-07
+	1001 1.2899e-06
+	2001 1.74029e-06
+	3001 1.21585e-06
+	4001 1.06835e-06
+	5001 1.24512e-06
+	6001 1.43099e-06
+	7001 1.60646e-06
+	8001 1.78374e-06
+	9001 1.95246e-06
+	10001 2.14336e-06
+	11001 2.3044e-06
+	12001 2.46292e-06
+	13001 2.79599e-06
+	14001 2.88253e-06
+	15001 3.07213e-06
+	16001 3.21033e-06
+	       
+
     b) Now do "module load openmpi/1.10.0-icc-15.0.3" after loading
        the CS 5220 module.  Check by typing "which mpicc" that you
        are now using a different version of mpicc.  Compile with
@@ -21,7 +50,35 @@
        you will have to add a module load to the start of the PBS
        scripts).  How do the timings differ from the Intel MPI timings?
 
+	OUTPUT:
+	1 4.99516e-07
+	1001 1.22358e-06
+	2001 1.68043e-06
+	3001 8.81186e-07
+	4001 1.02856e-06
+	5001 2.00192e-06
+	6001 2.22666e-06
+	7001 2.42181e-06
+	8001 2.52438e-06
+	9001 2.62188e-06
+	10001 2.80475e-06
+	11001 2.94514e-06
+	12001 3.16134e-06
+	13001 3.2676e-06
+	14001 3.37304e-06
+	15001 3.68327e-06
+	16001 3.72949e-06
+	--------------------------------------------------------------------------
+	mpirun noticed that process rank 0 with PID 17374 on node en-cs-totient-01 exited on signal 11 (Segmentation fault).
+	--------------------------------------------------------------------------
+
+
+     The times seem to be about 50-100% slower.
+
     c) When running at the peak rate (e.g. 16 double precision
        flops/cycle), how many (double precision) floating point ops
        could two totient cores do in the minimal time required for one
        MPI message exchange?
+
+      7x10(-7) seconds @ 2x 3.4 GHz
+      7x10(-7) / 3.4x10^(-9) ~= 20,000 ops
