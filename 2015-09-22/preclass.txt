@@ -1,5 +1,7 @@
 0.  How much time did you spend on this pre-class exercise, and when?
 
+    Evening before - 1:45 total time
+
 1.  What are one or two points that you found least clear in the
     9/22 slide decks (including the narration)?
 
@@ -19,6 +21,9 @@
        and time to update the global counters in the critical 
        section (t_update).
 
+	assume 2<p<=N
+        total time = (N/P)(t_trial) + N*t_update
+
     b) Run the code with a few different parameter values in order
        to estimate N, t_trial, and t_update for this code on
        a totient compute node.
@@ -27,8 +32,12 @@
        size.  How might you generalize this strategy to automatically
        choose batch sizes for different types of computational
        experiments?
+
+       I would choose sqrt(n). This scales up for large n, but never comes close to approaching n itself, maintaining decent parallelization.
     
 3.  In the workq subdirectory of this directory, there is a basic work
     queue implementation.  Following the strategy outlined in the
     slides, add synchronization calls in the locations marked TODO.
     You should run the code to make sure it behaves as expected!
+
+   (completed)
