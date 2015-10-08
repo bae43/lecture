@@ -1,7 +1,14 @@
 0.  How much time did you spend on this pre-class exercise, and when?
 
+    An hour and half the night before.   
+ 
 1.  What are one or two points that you found least clear in the
     10/08 slide decks (including the narration)?
+
+    They were pretty clear, I didn't have many issues.
+    I still don't feel confident in how MPI code executes,
+    given all the nodes execute the same code. When a send is sent, 
+    how do you tell what processor sends to what other?
 
 2.  Now that we are now basically a third of the way into the
     semester, and are (mostly) settled into the steady pace of things,
@@ -10,6 +17,18 @@
     particularly useful -- venting about the cluster, for example, is
     understandable but doesn't help me that much in adjusting!
 
+
+    * More clarity on how grading works - I have no idea how prelecture 
+    items are checked or graded or how I'm doing overall.
+
+    * Don't have prelecture assignments checked before class except 
+    some basic checks that we watched the lectures - often I have trouble 
+    with code and would really like some more explanation in class before
+    attempting.
+
+    * Your wish to improve things is great. I appreciate that you
+    constantly ask for feedback.
+
 3.  The ring demo implements the protocol described in the particle
     systems slide deck from 9/15:
 
@@ -17,9 +36,17 @@
 
     a) In your own words, describe what ring.c is doing.
 
+    It performs an n^2 operation where each particle interacts with all
+    of the others, but it's parallel n times round robin style.
+    
     b) How might you modify the code to have the same computational
        pattern, but using non-blocking communication rather than
        MPI_Sendrecv?  Note that according to the MPI standard,
        one isn't supposed to read from a buffer that is being
        handled by a non-blocking send, so it is probably necessary
        to use three temporary buffers rather than the current two.
+
+       I believe using a third buffer would be useful so that in the event
+       that it is blocked, the program can write to the third and maintain
+       while being non-blocking.
+
